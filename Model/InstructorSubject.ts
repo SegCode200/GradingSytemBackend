@@ -7,6 +7,6 @@ const instructorSubjectSchema: Schema<IinstructorSubject> = new Schema({
     subjectID: {type: String},
 })
 
-const InstructorModel = model<IinstructorSubject>("InstructorSubject", instructorSubjectSchema)
+const InstructorSubjectModel = model<IinstructorSubject>("InstructorSubject", instructorSubjectSchema)
 
-export default InstructorModel
+export default InstructorSubjectModel
