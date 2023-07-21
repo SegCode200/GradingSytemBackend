@@ -1,5 +1,5 @@
 import express,{ Application } from "express";
-import router from './route/userRouter';
+// import router from './route/userRouter';
 
 
 const appConfig = (app:Application)=>{
@@ -7,7 +7,7 @@ const appConfig = (app:Application)=>{
     app.use(express.json())
 
     // route
-    app.use("/api/", router)
+    // app.use("/api/", router)
 
 }
 export default appConfig;
