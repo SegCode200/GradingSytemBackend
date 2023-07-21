@@ -57,8 +57,8 @@ export const GetallInstructors = async(req:Request, res:Response):Promise<Respon
 
 export const Getoneinstructor = async(req:Request, res:Response):Promise<Response>=>{
     try {
-        const {instructorID} = req.params
-        const instructor = await InstructorModel.findById(instructorID)
+        const {InstID} = req.params
+        const instructor = await InstructorModel.findById(InstID)
         return res.status(200).json({message: "instructor successfully found",
         data : instructor
     }) 
@@ -70,8 +70,8 @@ export const Getoneinstructor = async(req:Request, res:Response):Promise<Respons
 }
 export const DeleteoneAdmin = async(req:Request, res:Response):Promise<Response>=>{
     try {
-        const {instructorID} = req.params
-        const instructor = await InstructorModel.findByIdAndDelete(instructorID)
+        const {InstID} = req.params
+        const instructor = await InstructorModel.findByIdAndDelete(InstID)
         return res.status(200).json({message: "instructor deleted successfully",
         data : instructor
     }) 
@@ -84,10 +84,10 @@ export const DeleteoneAdmin = async(req:Request, res:Response):Promise<Response>
 
 export const UpdateoneAdmin= async (req:Request, res:Response):Promise<Response> => {
     try {
-        const {instructorID} = req.params
+        const {InstID} = req.params
         const {firstName,lastName} = req.body
         const update = await InstructorModel.findByIdAndUpdate(
-            instructorID,
+            InstID,
             {
                 firstName,lastName
             

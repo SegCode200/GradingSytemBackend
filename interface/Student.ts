@@ -11,4 +11,5 @@ export interface IStudent extends Document {
     className: string
     avatar:string,
     avatarID:string
+    password:string
 }
