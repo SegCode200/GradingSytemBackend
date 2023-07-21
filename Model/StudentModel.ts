@@ -12,8 +12,8 @@ const studentSchema: Schema<IStudent> = new Schema({
     term: {type: String, required: true},
     registrationDate: {
         type: String, 
-    }
-
+    },
+    password: {type: String, required: true}
 }) 
 
 const StudentModel = model<IStudent>('Student', studentSchema)
