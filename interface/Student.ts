@@ -9,5 +9,6 @@ export interface IStudent extends Document {
     term: string
     registrationDate: string
     className: string
-    
+    avatar:string,
+    avatarID:string
 }
