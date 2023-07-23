@@ -3,6 +3,9 @@ import {Request,Response} from "express"
 import bcrypt from "bcrypt"
 import { IAdmin } from "../interface/Admin";
 import cloudinary from "../config/Cloudinary";
+import { InstructorModel } from "../Model/InstructorModel";
+import SubjectModel from "../Model/SubjectModel";
+import InstructorSubjectModel from "../Model/InstructorSubject";
 
 
 
@@ -11,15 +14,12 @@ export const CreateAdmin = async(req:any, res:Response):Promise<Response> =>{
         const {lastName, firstName, password,email} = req.body 
         const salt = await bcrypt.genSalt(10)
         const hash = await bcrypt.hash(password, salt)
-        const {secure_url, public_id} = await cloudinary.uploader.upload(req?.file.path!)
-
         const Admin = await AdminModel.create({
             lastName,
             firstName,
             password: hash,
             email,
-            avatar: secure_url,
-            avatarID: public_id
+           
         })
         return res.status(201).json({message: "Admin created", 
     data: Admin})
@@ -30,7 +30,7 @@ export const CreateAdmin = async(req:any, res:Response):Promise<Response> =>{
     }
 }
 
-export const SiginAdmin = async(req:Request, res:Response):Promise<Response> =>{
+export const SiginAdmin = async(req:any, res:Response):Promise<Response> =>{
     try {
         const {email,password} = req.body
         const user = await AdminModel.findOne({email})
@@ -118,3 +118,89 @@ export const UpdateoneAdmin= async (req:Request, res:Response):Promise<Response>
     }
 }
 
+export const AdminInstructortoSubject = async(req:Request, res:Response):Promise<Response>=>{
+    try {
+        const {instructorID, subjectID} = req.params
+        const subject = await SubjectModel.findOne({subjectID})
+        const instructor = await InstructorModel.findOne({instructorID})
+        const SubjectAdmin = await InstructorSubjectModel.create({
+            subject, instructor, 
+        })
+        return res.status(201).json({
+            message: "Admin Giving subject",
+            data: SubjectAdmin
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: error
+        })
+        
+    }
+}
+export const AdminInstructortoDeleteSubject = async(req:Request, res:Response):Promise<Response>=>{
+    try {
+        const {ID} = req.params
+        const SubjectAdmin = await InstructorSubjectModel.findByIdAndDelete(ID)
+        return res.status(200).json({
+            message: "Subject Deleted",
+            data: SubjectAdmin
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: error
+        })
+        
+    }
+}
+
+export const AddSubject = async(req:Request, res:Response):Promise<Response>=>{
+    try {
+        const {subjectName} = req.body
+        const Subject = await SubjectModel.create({
+            subjectName
+        })
+        return res.status(201).json({
+            message: "Subject Added",
+            data: Subject
+        })
+        
+    } catch (error) {
+        return res.status(404).json({
+            message: "Not added"
+        })
+        
+    }
+}
+export const DeleteSubject = async(req:Request, res:Response):Promise<Response>=>{
+    try {
+        const {ID} = req.params
+        const removeSubject = await SubjectModel.findByIdAndDelete(ID)
+        return res.status(200).json({
+            message: "Subject deleted",
+            data: removeSubject
+        })
+        
+    } catch (error) {
+        return res.status(404).json({
+            message: "Subject not Deleted"
+        })
+        
+    }
+}
+export const updateSubject = async(req:Request, res:Response):Promise<Response>=>{
+    try {
+        const {ID} = req.params
+        const {subjectName} = req.body
+        const removeSubject = await SubjectModel.findByIdAndUpdate(ID, {subjectName}, {new:true})
+        return res.status(200).json({
+            message: "Subject deleted",
+            data: removeSubject
+        })
+        
+    } catch (error) {
+        return res.status(404).json({
+            message: "Subject not Deleted"
+        })
+        
+    }
+}

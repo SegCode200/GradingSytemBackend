@@ -7,7 +7,5 @@ export interface IAdmin extends Document{
     lastName: string;
     password: string;
     email: string;
-    avatar: string,
-    avatarID:string
     
 }
